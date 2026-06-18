@@ -19,7 +19,7 @@ chhsich-skills/
 
 - **ecc-subagent-invocation** — spawn subagents correctly in this harness (Agent vs Task*, ToolSearch loading, verified `subagent_type`, self-contained prompts).
 - **parallel-issue-execution** — orchestrate the ultracode execution phase: route Issues to GAN / bug-fix, parallel dispatch with file-domain isolation, six-element task prompts, cross-validation.
-- **bugfix-discipline** — mandatory bug-fix protocol (diagnose + silent-failure-hunter + systematic-debugging escalation + quality-gate + impact analysis).
+- **bugfix-discipline** — mandatory bug-fix protocol (diagnosing-bugs + silent-failure-hunter + systematic-debugging escalation + quality-gate + impact analysis).
 - **git-discipline** — strict git workflow: conventional commits, no Co-Authored-By, `--no-ff` merges, no branch deletion, no ignored files (auto-enforced by `scripts/git-guard.sh`); plus git-flow, atomic commits, tests-before-merge, triage-after-merge (guided).
 
 ## Install

@@ -1,6 +1,6 @@
 ---
 name: bugfix-discipline
-description: Apply the mandatory bug-fix protocol — drive diagnosis via the diagnose skill, scan for silently-swallowed exceptions, escalate to systematic-debugging after repeated failures, make surgical edits, then verify with quality-gate and impact analysis. Use when fixing any bug, debugging a failure, or running regression after a fix.
+description: Apply the mandatory bug-fix protocol — drive diagnosis via the diagnosing-bugs skill, scan for silently-swallowed exceptions, escalate to systematic-debugging after repeated failures, make surgical edits, then verify with quality-gate and impact analysis. Use when fixing any bug, debugging a failure, or running regression after a fix.
 ---
 
 # Bugfix Discipline
@@ -9,16 +9,18 @@ Protocol for fixing a bug in the main session, run **serially** — bug fixes do
 
 ## Mandate
 
-**Always invoke `Skill("diagnose")` and run the six-phase method below. Do not skip diagnosis and jump to editing.** The six phases mirror the diagnose skill; they are reproduced here so the full protocol lives in one place and is not lost.
+**Always invoke `Skill("diagnosing-bugs")` and run the six-phase method below. Do not skip diagnosis and jump to editing.** The six phases mirror the diagnosing-bugs skill; they are reproduced here so the full protocol lives in one place and is not lost.
 
-## The six phases (diagnose method)
+## The six phases (diagnosing-bugs method)
 
 ### Phase 1: Build a feedback loop
 - Write a test / curl / script that reliably reproduces the bug.
 - Priority: failing test > HTTP script > CLI call > headless browser > other.
+- **Completion criterion (red-capable command):** name one command you have **already run** that is red-capable (asserts the user's exact symptom, so it goes red now and green once fixed), deterministic, fast, and agent-runnable. No red-capable command, no Phase 2 — jumping to a hypothesis is the exact failure this prevents.
 
-### Phase 2: Reproduce
+### Phase 2: Reproduce + minimise
 - Confirm it is the bug the user described, not a nearby different bug.
+- **Minimise:** once red, shrink the repro to the smallest scenario that still goes red — cut inputs, callers, config, data one at a time, re-running after each cut. The minimal repro becomes the regression test in Phase 5.
 
 ### Phase 3: Hypothesize
 - 3–5 ranked, falsifiable hypotheses.
@@ -38,7 +40,7 @@ Protocol for fixing a bug in the main session, run **serially** — bug fixes do
 - [ ] Correct hypothesis written into the commit message.
 - [ ] Answer: what would have prevented this bug?
 
-## Surrounding ECC tools (compose with diagnose)
+## Surrounding ECC tools (compose with diagnosing-bugs)
 
 - **Swallowed-exception scan** (full call):
 
@@ -63,7 +65,7 @@ Protocol for fixing a bug in the main session, run **serially** — bug fixes do
 
 ## Non-negotiables
 
-- No skip-to-edit. Diagnose (six phases) first.
+- No skip-to-edit. diagnosing-bugs (six phases) first.
 - Regression test written before the fix (watch it fail), then the fix (watch it pass).
 - Remove all `[DEBUG-xxx]` markers before done.
 - The correct hypothesis goes into the commit message.

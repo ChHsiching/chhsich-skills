@@ -12,7 +12,7 @@ Orchestration for the execution phase where multiple plan Issues are implemented
 For each Issue in the execution plan:
 
 - **New feature (independent Issue)** → dispatch as a parallel subagent. Implementation via GAN: `Skill("ecc:gan-build")` (drives generator↔evaluator internally), or manually spawn `gan-generator` + `gan-evaluator`. Critical features must complete at least one full generator↔evaluator loop.
-- **In-domain bug** (small, confined to one Issue's files, found by a subagent) → that subagent fixes it internally via `Skill("bugfix-discipline")` (which mandates `Skill("diagnose")`); do **not** interrupt the workflow.
+- **In-domain bug** (small, confined to one Issue's files, found by a subagent) → that subagent fixes it internally via `Skill("bugfix-discipline")` (which mandates `Skill("diagnosing-bugs")`); do **not** interrupt the workflow.
 - **Cross-domain bug** (spans Issues, touches shared modules, or affects other parallel tasks) → **pause the workflow**, return to main session, fix serially, then resume.
 - **Needs user input** (e.g. API key) → `AskUserQuestion`; do not stop and wait silently.
 
