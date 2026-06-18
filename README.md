@@ -37,14 +37,23 @@ chhsich-skills/
 
 Restart Claude Code. All four skills are available and the `git-discipline` hook is active on every platform (the hook is plain Node). Update later via the `/plugin` menu.
 
-## Install — Z.ai ZCode
+## Install — Z.ai ZCode (one command)
 
-**ZCode currently has no entry point for third-party plugins** — no `/plugin` command, no marketplace GUI, no install API (verified against ZCode 3.1.1's bundled code). ZCode *can* read this plugin format (it parses `.claude-plugin/plugin.json`, runs `hooks/hooks.json`, and sets `CLAUDE_PLUGIN_ROOT`), but offers no way to land a GitHub plugin on disk. Until ZCode adds an installer:
+ZCode has no built-in third-party plugin installer (no `/plugin` command, no marketplace GUI — verified against ZCode 3.1.1). The bootstrap script mirrors ZCode's **own** plugin layout so it picks the plugin up at startup:
 
-- The skills are usable by placing them under `~/.zcode/skills/` (ZCode scans it at startup).
-- The `git-discipline` PreToolUse hook **cannot** be auto-loaded this way — it only loads from an installed plugin, which ZCode can't yet do. You can still wire it manually in `~/.zcode/cli/config.json` (see `skills/git-discipline/REFERENCE.md`).
+```bash
+# Linux / macOS
+curl -fsSL https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode.sh | bash
+```
 
-When a future ZCode release adds a plugin/marketplace installer, the same steps as Claude Code will apply unchanged.
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode.ps1 | iex
+```
+
+Restart ZCode. The four skills load reliably (linked into `~/.zcode/skills/`, which ZCode scans at startup). The `git-discipline` hook is registered as a plugin in ZCode's own layout — verify it blocks a bad commit after restart. See [`install/`](install/) for exactly what the script does.
+
+> ZCode can already parse this plugin format (`.claude-plugin/plugin.json`, `hooks/hooks.json`, `CLAUDE_PLUGIN_ROOT`) — it just lacks an installer. When ZCode adds one, the same `/plugin`-style steps as Claude Code will apply unchanged.
 
 ## Manual install (any client, no plugin system)
 
