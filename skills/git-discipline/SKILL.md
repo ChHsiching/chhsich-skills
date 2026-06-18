@@ -5,9 +5,9 @@ description: Enforce and guide a strict git workflow — conventional commits, n
 
 # Git Discipline
 
-Two layers: a PreToolUse hook (`scripts/git-guard.sh`, wired in settings.json) auto-blocks the machine-checkable rules; this skill guides the judgment calls.
+Two layers: a PreToolUse hook (`scripts/git-guard.js`, auto-wired by the plugin or manually in settings.json) auto-blocks the machine-checkable rules; this skill guides the judgment calls.
 
-## Auto-enforced by git-guard.sh (hook — blocks, not advisory)
+## Auto-enforced by git-guard.js (hook — blocks, not advisory)
 
 - **No `Co-Authored-By`** in commit messages.
 - **Conventional commits**: `type(scope?): description` — feat / fix / refactor / docs / test / chore / perf / ci / build / style / revert.

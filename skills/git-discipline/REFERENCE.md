@@ -2,9 +2,15 @@
 
 ## Wiring the hook
 
-> If you installed the **chhsich-skills plugin** (`/plugin install chhsich-skills@chhsich-skills`), this is already wired automatically via `hooks/hooks.json` using `$CLAUDE_PLUGIN_ROOT` — skip this section. The manual wiring below is only for consuming the skill files directly (clone, no plugin install).
+`scripts/git-guard.js` is a cross-platform (Node) PreToolUse hook (matcher: `Bash`). It needs only Node — no bash, jq, grep, or sed — so it runs on Windows, macOS, and Linux in Claude Code and Z.ai ZCode alike.
 
-`scripts/git-guard.sh` is a Claude Code PreToolUse hook (matcher: `Bash`). When not using the plugin, reference it in `~/.claude/settings.json`:
+### Via the plugin (recommended)
+
+Install the **chhsich-skills plugin** in Claude Code and the hook wires itself: `hooks/hooks.json` runs `node "${CLAUDE_PLUGIN_ROOT}/skills/git-discipline/scripts/git-guard.js"`, and both Claude Code and ZCode substitute `${CLAUDE_PLUGIN_ROOT}` (and set it as an env var) when running plugin hooks. Nothing to add to `settings.json`. Skip to [Conventional commits](#conventional-commits).
+
+### Manual (clone, no plugin)
+
+Reference it in `~/.claude/settings.json` (Claude Code) or under `plugins` in `~/.zcode/cli/config.json` (ZCode):
 
 ```json
 "hooks": {
@@ -12,13 +18,13 @@
     { "matcher": "Bash",
       "hooks": [
         { "type": "command",
-          "command": "bash /ABS/PATH/TO/chhsich-skills/skills/git-discipline/scripts/git-guard.sh" }
+          "command": "node /ABS/PATH/TO/chhsich-skills/skills/git-discipline/scripts/git-guard.js" }
       ] }
   ]
 }
 ```
 
-Restart Claude Code after changing settings.json hooks. The hook reads the tool-input JSON on stdin and exits `2` to block (its stderr is shown to the model).
+Restart the client after editing hooks. The hook reads the tool-input JSON on stdin and exits `2` to block (its stderr is shown to the model).
 
 ## Conventional commits
 
@@ -33,15 +39,15 @@ Breaking change: append `!` after type/scope, e.g. `feat(api)!: drop v1 endpoint
 
 ## Airtight commit-message validation (optional)
 
-`git-guard.sh` inspects the `-m` argument only. If you commit via `-F <file>` or the editor, add a native git `commit-msg` hook:
+`git-guard.js` inspects the `-m` argument only. If you commit via `-F <file>` or the editor, add a native git `commit-msg` hook:
 
 ```bash
-mkdir -p ~/Git/Mine/chhsich-skills/git-discipline/scripts/native-hooks
+mkdir -p /ABS/PATH/TO/chhsich-skills/skills/git-discipline/scripts/native-hooks
 # place a commit-msg script there, then:
-git config --global core.hooksPath ~/Git/Mine/chhsich-skills/git-discipline/scripts/native-hooks
+git config --global core.hooksPath /ABS/PATH/TO/chhsich-skills/skills/git-discipline/scripts/native-hooks
 ```
 
-Trade-off: `core.hooksPath` is global and overrides per-repo hooks. Some rules (branch `-d`, merge `--no-ff`) have no native git hook and rely on the Claude PreToolUse hook.
+Trade-off: `core.hooksPath` is global and overrides per-repo hooks. Some rules (branch `-d`, merge `--no-ff`) have no native git hook and rely on the Claude/ZCode PreToolUse hook.
 
 ## git flow quick model
 

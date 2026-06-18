@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash \"$CLAUDE_PLUGIN_ROOT/skills/git-discipline/scripts/git-guard.sh\""
+            "command": "node \"${CLAUDE_PLUGIN_ROOT}/skills/git-discipline/scripts/git-guard.js\""
           }
         ],
         "description": "git-discipline: enforce conventional commits, no Co-Authored-By, --no-ff merges, no branch deletion, no force-adding ignored files",
