@@ -2,7 +2,9 @@
 
 ## Wiring the hook
 
-`scripts/git-guard.sh` is a Claude Code PreToolUse hook (matcher: `Bash`). settings.json references it:
+> If you installed the **chhsich-skills plugin** (`/plugin install chhsich-skills@chhsich-skills`), this is already wired automatically via `hooks/hooks.json` using `$CLAUDE_PLUGIN_ROOT` — skip this section. The manual wiring below is only for consuming the skill files directly (clone, no plugin install).
+
+`scripts/git-guard.sh` is a Claude Code PreToolUse hook (matcher: `Bash`). When not using the plugin, reference it in `~/.claude/settings.json`:
 
 ```json
 "hooks": {
@@ -10,7 +12,7 @@
     { "matcher": "Bash",
       "hooks": [
         { "type": "command",
-          "command": "bash /home/chhsich/Git/Mine/chhsich-skills/git-discipline/scripts/git-guard.sh" }
+          "command": "bash /ABS/PATH/TO/chhsich-skills/skills/git-discipline/scripts/git-guard.sh" }
       ] }
   ]
 }

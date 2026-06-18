@@ -1,18 +1,24 @@
 # chhsich-skills
 
-Personal Claude Code Agent Skills — reusable across projects and iterations.
+Personal Claude Code Agent Skills — reusable across projects and iterations. Distributed as a **Claude Code plugin** so the `git-discipline` PreToolUse hook installs automatically (no manual `settings.json` editing).
 
 ## Repo structure
 
-Each skill is its own top-level directory (the official model: `SKILL.md` + optional `REFERENCE.md` / `scripts/` / `examples.md` inside the skill dir). A skill that ships a hook bundles the hook script in its own `scripts/`. The repo stays flat so each skill symlinks 1:1 into `~/.claude/skills/`.
+A Claude Code plugin: the repo root is both a marketplace (`.claude-plugin/marketplace.json`) and the plugin itself (`.claude-plugin/plugin.json`, `source: "./"`). Skills live under `skills/`; `hooks/hooks.json` is auto-loaded by Claude Code and points at the git-guard script via `$CLAUDE_PLUGIN_ROOT`.
 
 ```
 chhsich-skills/
-├── README.md
-├── ecc-subagent-invocation/{SKILL.md, REFERENCE.md}
-├── parallel-issue-execution/{SKILL.md, REFERENCE.md}
-├── bugfix-discipline/SKILL.md
-└── git-discipline/{SKILL.md, REFERENCE.md, scripts/git-guard.sh}
+├── .claude-plugin/
+│   ├── marketplace.json      # makes this repo a plugin marketplace
+│   └── plugin.json           # the plugin: declares ./skills/ (hooks auto-discovered)
+├── hooks/
+│   └── hooks.json            # PreToolUse Bash → git-guard.sh (via $CLAUDE_PLUGIN_ROOT)
+├── skills/
+│   ├── bugfix-discipline/SKILL.md
+│   ├── ecc-subagent-invocation/{SKILL.md, REFERENCE.md}
+│   ├── git-discipline/{SKILL.md, REFERENCE.md, scripts/git-guard.sh}
+│   └── parallel-issue-execution/{SKILL.md, REFERENCE.md}
+└── README.md
 ```
 
 ## Skills
@@ -20,23 +26,28 @@ chhsich-skills/
 - **ecc-subagent-invocation** — spawn subagents correctly in this harness (Agent vs Task*, ToolSearch loading, verified `subagent_type`, self-contained prompts).
 - **parallel-issue-execution** — orchestrate the ultracode execution phase: route Issues to GAN / bug-fix, parallel dispatch with file-domain isolation, six-element task prompts, cross-validation.
 - **bugfix-discipline** — mandatory bug-fix protocol (diagnosing-bugs + silent-failure-hunter + systematic-debugging escalation + quality-gate + impact analysis).
-- **git-discipline** — strict git workflow: conventional commits, no Co-Authored-By, `--no-ff` merges, no branch deletion, no ignored files (auto-enforced by `scripts/git-guard.sh`); plus git-flow, atomic commits, tests-before-merge, triage-after-merge (guided).
+- **git-discipline** — strict git workflow: conventional commits, no Co-Authored-By, `--no-ff` merges, no branch deletion, no ignored files (auto-enforced by the plugin's PreToolUse hook); plus git-flow, atomic commits, tests-before-merge, triage-after-merge (guided).
 
 ## Install
 
-```bash
-npx skills@latest add ChHsiching/chhsich-skills
+Install as a Claude Code plugin — the hook wires itself:
+
+```
+/plugin marketplace add ChHsiching/chhsich-skills
+/plugin install chhsich-skills@chhsich-skills
 ```
 
-Symlinks all four skills into your agent directory. Options: `--copy` (copy instead of symlink), `-s <name>` (install one skill), `--list` (preview without installing). Re-run to update.
+Restart Claude Code. All four skills are available and `git-discipline`'s PreToolUse hook is active. Update later through the `/plugin` menu.
 
-Then wire the `git-discipline` PreToolUse hook into `~/.claude/settings.json` (see `git-discipline/REFERENCE.md`). `npx skills add` installs the skill but does **not** auto-register its hook — without this step the commit/merge discipline won't actually fire. Restart Claude Code.
+> Requires the ECC, superpowers, and andrej-karpathy-skills plugins plus the mattpocock skills — these four are orchestration glue over that stack.
 
-> Designed for the ECC, superpowers, and andrej-karpathy-skills plugins plus the mattpocock skills — these four are orchestration glue over that stack.
+## Manual hook wiring (only if NOT using the plugin)
+
+If you consume the skill files directly (clone, no plugin), wire the hook by hand in `~/.claude/settings.json` — see `skills/git-discipline/REFERENCE.md`. The plugin path above is strongly preferred.
 
 ## Composition
 
-`parallel-issue-execution` invokes `ecc-subagent-invocation` (how to spawn) and `bugfix-discipline` (how to fix). `git-discipline` auto-enforces commit/merge/branch rules via its PreToolUse hook. A goal prompt references whichever it needs via `Skill("…")`.
+`parallel-issue-execution` invokes `ecc-subagent-invocation` (how to spawn) and `bugfix-discipline` (how to fix). `git-discipline` auto-enforces commit/merge/branch rules via its PreToolUse hook (registered by the plugin). A goal prompt references whichever it needs via `Skill("…")`.
 
 ## Conventions
 

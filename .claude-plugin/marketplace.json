@@ -1,0 +1,27 @@
+{
+  "name": "chhsich-skills",
+  "owner": {
+    "name": "ChHsiching",
+    "url": "https://github.com/ChHsiching"
+  },
+  "metadata": {
+    "description": "Personal orchestration skills: subagent invocation, parallel issue execution, bug-fix discipline, git discipline (with PreToolUse hook)."
+  },
+  "plugins": [
+    {
+      "name": "chhsich-skills",
+      "source": "./",
+      "description": "Orchestration skills for Claude Code + ECC + superpowers — subagent invocation, parallel issue execution, bug-fix discipline, and git discipline with an auto-installed PreToolUse hook.",
+      "version": "1.0.0",
+      "author": {
+        "name": "ChHsiching",
+        "url": "https://github.com/ChHsiching"
+      },
+      "repository": "https://github.com/ChHsiching/chhsich-skills",
+      "license": "MIT",
+      "category": "workflow",
+      "keywords": ["skills", "subagents", "bugfix", "git", "discipline", "workflow"],
+      "strict": false
+    }
+  ]
+}
