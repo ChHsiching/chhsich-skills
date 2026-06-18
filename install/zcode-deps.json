@@ -1,0 +1,11 @@
+{
+  "_comment": "Dependencies of chhsich-skills, installed into Z.ai ZCode by zcode-deps.js. Single source of truth shared by zcode-deps.sh (Linux/macOS) and zcode-deps.ps1 (Windows).",
+  "dependencies": [
+    { "type": "plugin",  "marketplace": "ecc",             "repo": "https://github.com/affaan-m/ECC.git" },
+    { "type": "enable",  "key": "superpowers@zcode-plugins-official" },
+    { "type": "skill",   "name": "diagnosing-bugs", "repo": "https://github.com/mattpocock/skills.git", "subpath": "skills/engineering/diagnosing-bugs" },
+    { "type": "skill",   "name": "triage",          "repo": "https://github.com/mattpocock/skills.git", "subpath": "skills/engineering/triage" },
+    { "type": "skill",   "name": "tdd",             "repo": "https://github.com/mattpocock/skills.git", "subpath": "skills/engineering/tdd" },
+    { "type": "plugin",  "marketplace": "karpathy-skills", "repo": "https://github.com/forrestchang/andrej-karpathy-skills.git" }
+  ]
+}

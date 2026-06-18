@@ -53,6 +53,22 @@ irm https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zco
 
 Restart ZCode. The four skills load reliably (linked into `~/.zcode/skills/`, which ZCode scans at startup). The `git-discipline` hook is registered as a plugin in ZCode's own layout — verify it blocks a bad commit after restart. See [`install/`](install/) for exactly what the script does.
 
+### Dependencies (ECC + superpowers + mattpocock + karpathy)
+
+chhsich-skills pulls in ECC, superpowers, mattpocock (`diagnosing-bugs` / `triage` / `tdd`), and karpathy. Install them into ZCode too — idempotent, skips anything already present:
+
+```bash
+# Linux / macOS
+curl -fsSL https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode-deps.sh | bash
+```
+
+```powershell
+# Windows (PowerShell)
+irm https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode-deps.ps1 | iex
+```
+
+Driven by `install/zcode-deps.json`; core logic in `install/zcode-deps.js` (cross-platform Node — Linux/macOS/Windows). See [`docs/superpowers/specs/2026-06-19-zcode-deps-installer-design.md`](docs/superpowers/specs/2026-06-19-zcode-deps-installer-design.md).
+
 > ZCode can already parse this plugin format (`.claude-plugin/plugin.json`, `hooks/hooks.json`, `CLAUDE_PLUGIN_ROOT`) — it just lacks an installer. When ZCode adds one, the same `/plugin`-style steps as Claude Code will apply unchanged.
 
 ## Manual install (any client, no plugin system)

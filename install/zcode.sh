@@ -64,6 +64,10 @@ cat <<EOF
   • hook   — try a bad commit, e.g.  git commit -m "bad"  → git-guard.js should block it.
   • logs   — ~/.zcode/cli/log/  (pluginCount / hookCount should rise).
 
+Dependencies (ECC / superpowers / mattpocock / karpathy)? Run:
+  curl -fsSL https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode-deps.sh | bash
+  (Windows: irm https://raw.githubusercontent.com/ChHsiching/chhsich-skills/main/install/zcode-deps.ps1 | iex)
+
 Note: ZCode has no official third-party plugin installer; this mirrors its
 built-in plugin layout. Skills load reliably; the hook depends on ZCode
 resolving the marketplace — verify after restart and report back if not.
