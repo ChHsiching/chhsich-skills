@@ -24,16 +24,15 @@ chhsich-skills/
 
 ## Install
 
-Symlink each skill into `~/.claude/skills/` (canonical source stays here; editing the repo updates the live skill via the symlink):
-
 ```bash
-cd ~/Git/Mine/chhsich-skills
-for s in ecc-subagent-invocation parallel-issue-execution bugfix-discipline git-discipline; do
-  ln -sfn "$PWD/$s" ~/.claude/skills/"$s"
-done
+npx skills@latest add ChHsiching/chhsich-skills
 ```
 
-Wire the git-discipline hook in `~/.claude/settings.json` (see `git-discipline/REFERENCE.md`), then restart Claude Code.
+Symlinks all four skills into your agent directory. Options: `--copy` (copy instead of symlink), `-s <name>` (install one skill), `--list` (preview without installing). Re-run to update.
+
+Then wire the `git-discipline` PreToolUse hook into `~/.claude/settings.json` (see `git-discipline/REFERENCE.md`). `npx skills add` installs the skill but does **not** auto-register its hook — without this step the commit/merge discipline won't actually fire. Restart Claude Code.
+
+> Designed for the ECC, superpowers, and andrej-karpathy-skills plugins plus the mattpocock skills — these four are orchestration glue over that stack.
 
 ## Composition
 
