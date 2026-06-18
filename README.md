@@ -30,14 +30,23 @@ chhsich-skills/
 
 ## Install
 
-Install as a Claude Code plugin — the hook wires itself:
+A Claude Code plugin — installs identically in any Claude Code-compatible client (Claude Code, Z.ai ZCode, …). The `git-discipline` hook wires itself via `$CLAUDE_PLUGIN_ROOT`, which all these clients set on plugin load.
 
 ```
 /plugin marketplace add ChHsiching/chhsich-skills
 /plugin install chhsich-skills@chhsich-skills
 ```
 
-Restart Claude Code. All four skills are available and `git-discipline`'s PreToolUse hook is active. Update later through the `/plugin` menu.
+Restart the client. The four skills are available and the PreToolUse hook is active. Update later via the `/plugin` menu.
+
+### Where it lands per client
+
+| Client | Plugins dir | Enabled-plugins file |
+|---|---|---|
+| Claude Code | `~/.claude/plugins/` | `~/.claude/settings.json` |
+| Z.ai ZCode | `~/.zcode/cli/plugins/` | `~/.zcode/cli/config.json` |
+
+ZCode is a Claude Code-compatible client — same plugin/marketplace/hook format, same `$CLAUDE_PLUGIN_ROOT` (verified against its bundled `superpowers` plugin). The two commands above are identical; just run them inside ZCode instead of Claude Code.
 
 > Requires the ECC, superpowers, and andrej-karpathy-skills plugins plus the mattpocock skills — these four are orchestration glue over that stack.
 
